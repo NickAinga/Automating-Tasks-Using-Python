@@ -1,10 +1,15 @@
-
 #!/usr/bin/env python3
-import os
+
+import os, sys
 from PIL import Image
-old_path = os.path.expanduser('~') + '/images/'
-new_path = '/opt/icons/'
-for image in os.listdir(old_path):
-        img = Image.open(old_path + image)
-        img.rotate(-90).resize((128, 128)).convert("RGB").save(new_path + image + '.jpeg')
-        img.close()
+
+for root, dirs, files in os.walk("."):
+  for file in files:
+    f, e = os.path.splitext(file)
+    outfile = "/opt/icons/" + f
+    try:
+      #print(outfile)
+      Image.open(file).rotate(270).resize((128,128)).convert("RGB").save(outfile, "JPEG")
+
+    except IOError:
+      print("cannot convert", file)
